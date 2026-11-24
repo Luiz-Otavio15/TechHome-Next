@@ -1,24 +1,27 @@
-import ProdutoCard from "@/components/ProdutoCard";
-import { getProdutos } from "@/lib/produtos";
-
-// Página pública: renderizada no servidor e cacheada. Atualiza a cada 60s
-// ou na hora, quando o painel chama revalidatePath("/").
-export const revalidate = 60;
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default async function Home() {
-  const produtos = await getProdutos();
+  const session = await getServerSession(authOptions);
+
+  if (session) {
+    redirect("/dashboard");
+  }
+
   return (
-    <main className="mx-auto max-w-5xl p-4 sm:p-6">
-      <h1 className="mb-1 text-3xl font-bold">Nossos produtos</h1>
-      {/* TODO: frase de apresentação da loja */}
-      <p className="mb-6 text-slate-600">Confira o que temos disponível.</p>
-      {produtos.length === 0 ? (
-        <p className="text-slate-500">Nenhum produto cadastrado ainda.</p>
-      ) : (
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {produtos.map((p) => <ProdutoCard key={p._id} produto={p} />)}
-        </ul>
-      )}
-    </main>
+    <div className="flex h-screen flex-col items-center justify-center gap-4 bg-gray-900 text-white">
+      <h1 className="text-4xl font-bold">Gerenciador de Produtos</h1>
+      <p className="text-gray-400">Exemplo prático de Next.js Fullstack</p>
+      <div className="flex gap-4">
+        <Link href="/login" className="rounded bg-blue-600 px-6 py-3 font-bold hover:bg-blue-700">
+          Entrar
+        </Link>
+        <Link href="/register" className="rounded border border-white px-6 py-3 font-bold hover:bg-white hover:text-black">
+          Criar Conta
+        </Link>
+      </div>
+    </div>
   );
 }

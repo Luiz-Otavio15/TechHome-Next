@@ -1,39 +1,47 @@
-import type { NextAuthOptions } from "next-auth";
+import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
-import { connectDB } from "./mongodb";
+import dbConnect from "@/lib/db";
 import User from "@/models/User";
+import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      name: "E-mail e senha",
+      name: "Credentials",
       credentials: {
-        email: { label: "E-mail", type: "email" },
-        senha: { label: "Senha", type: "password" },
+        email: { label: "Email", type: "text" },
+        password: { label: "Senha", type: "password" }
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.senha) return null;
-        await connectDB();
-        const user = await User.findOne({ email: credentials.email.toLowerCase() }).select("+senha");
-        if (!user) return null;
-        const ok = await bcrypt.compare(credentials.senha, user.senha);
-        if (!ok) return null;
-        return { id: user._id.toString(), name: user.nome, email: user.email };
-      },
-    }),
+        await dbConnect();
+        
+        // 1. Buscar usuário
+        // O .select("+password") força o retorno do campo oculto
+        const user = await User.findOne({ email: credentials?.email }).select("+password");
+        if (!user) throw new Error("Usuário não encontrado");
+
+        // 2. Verificar senha
+        const isValid = await bcrypt.compare(credentials!.password, user.password);
+        if (!isValid) throw new Error("Senha incorreta");
+
+        // 3. Retornar usuário para sessão
+        return { id: user._id.toString(), email: user.email, name: user.name };
+      }
+    })
   ],
-  session: { strategy: "jwt", maxAge: 60 * 60 * 24 * 7 },
-  pages: { signIn: "/login" },
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) token.id = user.id;
-      return token;
-    },
-    async session({ session, token }) {
-      if (session.user) session.user.id = token.id as string;
-      return session;
-    },
+  pages: {
+    signIn: "/login",
+  },
+  session: {
+    strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    async session({ session, token }) {
+      if (session.user) {
+        (session.user as any).id = token.sub; // Adiciona ID na sessão
+      }
+      return session;
+    }
+  }
 };
