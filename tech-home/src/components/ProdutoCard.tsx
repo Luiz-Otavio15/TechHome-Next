@@ -1,28 +1,43 @@
-import Link from "next/link";
-import { formatarPreco } from "@/lib/format";
-import type { ProdutoDTO } from "@/types";
+'use client'
+import { useState } from "react";
+import { updateProduct, deleteProduct } from "../app/actions";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Trash, Pencil } from "lucide-react"
 import Image from "next/image";
-export function EstoqueBadge({ estoque }: { estoque: number }) {
-  const esgotado = estoque === 0;
-  return (
-    <span className={`w-fit rounded-full px-2 py-0.5 text-xs ${esgotado ? "bg-red-100 text-red-700" : "bg-emerald-100 text-emerald-700"}`}>
-      {esgotado ? "Esgotado" : `${estoque} em estoque`}
-    </span>
-  );
+interface ProdutoProps{
+  product: {
+    _id: string;
+    nome: string;
+    preco: number;
+    imagem: string;
+    descricao: string
+  }
 }
 
-export default function ProdutoCard({ produto }: { produto: ProdutoDTO }) {
+export default function ProdutoCard({ product }: ProdutoProps) {
+  
+
   return (
-    <li>
-      <Link href={`/produtos/${produto._id}`} className="flex h-full flex-col gap-2 rounded-xl border border-slate-200 bg-white p-4 hover:border-indigo-300">
-        <h2 className="font-semibold">{produto.nome}</h2>
-        <p className="line-clamp-2 text-sm text-slate-600">{produto.descricao || "Sem descrição"}</p>
-        <p className="mt-auto text-lg font-bold">{formatarPreco(produto.preco)}</p>
-        <EstoqueBadge estoque={produto.estoque} />
-          {produto.imagem && (
-            <Image src={produto.imagem} alt={produto.nome}></Image>
-          )}
-      </Link>
-    </li>
+    
+    
+    <Card className="hover:shadow-md transition-shadow">
+          <div className="relative aspect-square w-60">
+            <Image src={product.imagem} alt={product.nome} fill/>
+          </div>
+          
+        <CardContent className="flex items-center justify-between p-5 pt-5">
+            <div>
+                <h3 className="font-semibold text-gray-900 text-xl mb-3">{product.nome}</h3>
+                <p className="text-xl font-medium">R$ {product.preco.toFixed(2)}</p>
+            </div>
+        </CardContent>
+          
+          
+    
+        
+       
+    </Card>
   );
 }
