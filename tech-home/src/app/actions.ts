@@ -83,8 +83,6 @@ export async function updateProduct(formData: FormData) {
   return { success: true };
 }
 
-
-// --- AÇÃO DE CRIAR PEDIDO ---
 // --- AÇÃO DE CRIAR PEDIDO ---
 export async function criarPedido(formData: FormData) {
   const session = await getServerSession(authOptions);
@@ -148,3 +146,24 @@ export async function criarPedido(formData: FormData) {
     return { error: "Não foi possível criar o pedido" };
   }
 }
+
+export async function promoverUsuario(id: string) {
+  const session = await getServerSession(authOptions);
+
+  if (session?.user?.role !== "admin") {
+    throw new Error("Sem permissão!");
+  }
+  await dbConnect();
+  const usuario = await User.findByIdAndUpdate(
+    id,
+    { role: "gerente" },
+    { new: true }
+  );
+
+  if (!usuario) {
+    throw new Error("Usuário não encontrado");
+  }
+
+  return { ok: true };
+}
+

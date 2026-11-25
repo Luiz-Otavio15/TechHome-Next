@@ -25,7 +25,7 @@ export const authOptions: NextAuthOptions = {
         if (!isValid) throw new Error("Senha incorreta");
 
         // 3. Retornar usuário para sessão
-        return { id: user._id.toString(), email: user.email, name: user.name };
+        return { id: user._id.toString(), email: user.email, name: user.name, role: user.role };
       }
     })
   ],
@@ -40,8 +40,16 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (session.user) {
         (session.user as any).id = token.sub; // Adiciona ID na sessão
+        (session.user as any).role = token.role;
       }
       return session;
-    }
+    },
+    async jwt({token, user}){
+      if (user) {
+        token.role = (user as any).role;
+      }
+        return token
+    },
+    
   }
 };
