@@ -42,7 +42,7 @@ export default async function Dashboard() {
           
           {products.length === 0 && (
             <Card>
-              <CardContent className="flex flex-col items-center justify-center py-12">
+              <CardContent className="flex flex-col items-center justify-center p-20 pt-20">
                 
                 <p className="text-center text-gray-500">Nenhum produto cadastrado.</p>
               </CardContent>

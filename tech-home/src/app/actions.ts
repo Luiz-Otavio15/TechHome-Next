@@ -36,11 +36,16 @@ export async function addProduct(formData: FormData) {
 
   const nome = formData.get("nome");
   const preco = formData.get("preco");
-
+  const imagem = formData.get("imagem")
+  const descricao = formData.get("descricao")
+  const estoque = formData.get("estoque")
   await dbConnect();
   await Product.create({
     nome,
+    descricao,
     preco: Number(preco),
+    imagem,
+    estoque: Number(estoque),
     usuarioId: (session.user as any).id
   });
 

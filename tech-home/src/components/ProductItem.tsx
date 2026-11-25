@@ -4,7 +4,7 @@ import { updateProduct, deleteProduct } from "../app/actions";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
+import { Trash, Pencil } from "lucide-react"
 
 interface ProductProps {
   product: {
@@ -68,8 +68,8 @@ export default function ProductItem({ product }: ProductProps) {
   }
 
   return (
-    <Card className="hover:shadow-md transition-shadow">
-      <CardContent className="flex items-center justify-between p-4">
+    <Card className="hover:shadow-md transition-shadow m-5">
+      <CardContent className="flex items-center justify-between p-5 pt-5">
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100">
             
@@ -80,13 +80,14 @@ export default function ProductItem({ product }: ProductProps) {
           </div>
         </div>
         
-        <div className="flex gap-2">
+        <div className="flex gap-4">
           <Button 
             variant="outline"
             size="sm"
             onClick={() => setIsEditing(true)}
             className="text-blue-600 hover:text-blue-700"
           >
+            <Pencil className="w-5 h-5 mr-2 "/>
             editar
           </Button>
 
@@ -97,7 +98,8 @@ export default function ProductItem({ product }: ProductProps) {
               size="sm"
               className="text-red-600 hover:text-red-700 hover:bg-red-50"
             >
-              s
+              <Trash className="h-5 w-5 mr-2"/>
+              Deletar
             </Button>
           </form>
         </div>

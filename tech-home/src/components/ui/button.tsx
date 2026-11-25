@@ -12,7 +12,7 @@ export function Button({
   ...props
 }: ButtonProps) {
   const variants = {
-    default: "bg-slate-900 text-white hover:bg-slate-800",
+    default: "bg-gray-900 text-white hover:bg-slate-800",
     destructive: "bg-red-600 text-white hover:bg-red-700",
     outline: "border border-slate-300 bg-white text-slate-900 hover:bg-slate-100",
     ghost: "hover:bg-slate-100 text-slate-900",

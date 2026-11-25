@@ -26,7 +26,7 @@ export default function RegisterPage() {
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-              <UserPlus className="h-6 w-6 text-green-600" />
+              
             </div>
           </div>
           <CardTitle className="text-2xl">Criar Conta</CardTitle>
@@ -38,7 +38,7 @@ export default function RegisterPage() {
         <CardContent>
           <form action={clientAction} className="space-y-4">
             <div className="relative">
-              <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+              
               <Input 
                 name="name" 
                 type="text" 
@@ -49,7 +49,7 @@ export default function RegisterPage() {
             </div>
             
             <div className="relative">
-              <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+              
               <Input 
                 name="email" 
                 type="email" 
@@ -60,7 +60,7 @@ export default function RegisterPage() {
             </div>
             
             <div className="relative">
-              <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+              
               <Input 
                 name="password" 
                 type="password" 
@@ -71,7 +71,7 @@ export default function RegisterPage() {
             </div>
             
             <Button className="w-full bg-green-600 hover:bg-green-700">
-              <UserPlus className="mr-2 h-4 w-4" />
+              
               Registrar
             </Button>
           </form>
