@@ -1,7 +1,5 @@
 import Product from "@/models/Product";
-import ProductItem from "@/components/ProductItem";
 import ProdutoCard from "@/components/ProdutoCard";
-import { Card } from "@/components/ui/card"
 import { Navbar } from "@/components/ui/navbar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -23,20 +21,20 @@ export default async function principal() {
             <div className="mx-auto ">
                 <Navbar/>
                 
-        
-                <div className="flex justify-center items-center h-screen">
-                    <div className="flex">
-                        {produto.map((produtos) => (
-                            <ProdutoCard 
-                                key={produtos._id.toString()} 
-                                product={{
-                                    ...produtos,
-                                    _id: produtos._id.toString()
-                                }} 
-                            />
-                        ))}   
+                
+                    <div className="flex justify-center items-center h-screen">
+                        <div className="flex gap-2">
+                            {produto.map((produtos) => (
+                                <ProdutoCard 
+                                    key={produtos._id.toString()} 
+                                    product={{
+                                        ...produtos,
+                                        _id: produtos._id.toString()
+                                    }} 
+                                />
+                            ))}   
+                        </div>
                     </div>
-                </div>
             </div>
         </div>
     );

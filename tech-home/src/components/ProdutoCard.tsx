@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Trash, Pencil } from "lucide-react"
 import Image from "next/image";
+import Link from "next/link";
 interface ProdutoProps{
   product: {
     _id: string;
@@ -21,23 +22,22 @@ export default function ProdutoCard({ product }: ProdutoProps) {
 
   return (
     
-    
-    <Card className="hover:shadow-md transition-shadow">
-          <div className="relative aspect-square w-60">
-            <Image src={product.imagem} alt={product.nome} fill/>
+    <Link href={`principal/${product._id}`}>
+      <Card className="hover:shadow-md transition-shadow w-80 h-auto">
+          <div className="relative aspect-square object-cover w-full h-56">
+            <Image src={product.imagem} alt={product.nome} fill />
           </div>
           
-        <CardContent className="flex items-center justify-between p-5 pt-5">
+          <CardContent className="flex items-center justify-between p-5 pt-5">
             <div>
                 <h3 className="font-semibold text-gray-900 text-xl mb-3">{product.nome}</h3>
                 <p className="text-xl font-medium">R$ {product.preco.toFixed(2)}</p>
             </div>
-        </CardContent>
+          </CardContent>
           
-          
-    
-        
-       
-    </Card>
+
+      </Card>
+    </Link>
+      
   );
 }

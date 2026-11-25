@@ -7,7 +7,7 @@ import { Alert } from "@/components/ui/alert";
 import SignOutButton from "@/components/SignOutButton";
 import Logout from "@/components/logoutbutton";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ChevronLeft, MoveLeft } from "lucide-react";
 import Link from "next/link";
 export default async function PerfilPage() {
   const session = await getServerSession(authOptions);
@@ -49,7 +49,8 @@ export default async function PerfilPage() {
         </div>
         <Button variant="ghost" className="w-full border border-gray-400">
             <Link href="/principal" className="flex">
-                <ArrowLeft className="mr-2 h-4 w-4" />
+                
+                <ArrowLeft className="mr-2 h-5 w-5"/>
                 Voltar para a loja
             </Link>
         </Button>
