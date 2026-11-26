@@ -9,15 +9,12 @@ import dbConnect from "@/lib/db";
 import Product from "@/models/Product";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Navbar } from "@/components/ui/navbar";
+import { Navbar, NavbarVoltar } from "@/components/ui/navbar";
+
 const brl = (v: number) =>
   v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-export default async function ProdutoPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function ProdutoPage({params,}: {params: Promise<{ id: string }>;}) {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/login");
 
@@ -33,14 +30,10 @@ export default async function ProdutoPage({
 
   return (  
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      <div className="mx-auto max-w-5xl">
+      <NavbarVoltar/>
+      <div className="mx-auto max-w-5xl p-10">
         
-        <Button variant="ghost" className="mb-4">
-          <Link href="/principal">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Voltar para a loja
-          </Link>
-        </Button>
+        
 
         <Card>
           <CardContent className="grid gap-8 p-6 md:grid-cols-2">
@@ -100,8 +93,8 @@ export default async function ProdutoPage({
                 </Button>
               ) : (
                 <Button size="lg" className="mt-auto w-full bg-green-600 hover:bg-green-700">
-                  <Link href={`/principal/${produto._id}/finalizacao`}>
-                    <ShoppingCart className="mr-2 h-4 w-4" />
+                  <Link href={`/principal/${produto._id}/finalizacao`} className="flex">
+                    <ShoppingCart className="mr-2"/>
                     Comprar agora
                   </Link>
                 </Button>

@@ -35,13 +35,8 @@ export default function CheckoutForm({ produto }: Props) {
   }
 
   return (
-    <div className="mx-auto max-w-4xl">
-      <Button variant="ghost" className="mb-4">
-        <Link href={`/principal/${produto.id}`}>
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Voltar ao produto
-        </Link>
-      </Button>
+    <div className="mx-auto max-w-4xl p-10">
+      
 
       <form action={clientAction} className="grid gap-4 md:grid-cols-3">
         <input type="hidden" name="produtoId" value={produto.id} />
@@ -118,7 +113,9 @@ export default function CheckoutForm({ produto }: Props) {
               disabled={enviando}
               className="w-full bg-green-600 hover:bg-green-700"
             >
+              
               {enviando ? "Finalizando..." : "Finalizar compra"}
+              
             </Button>
           </CardContent>
         </Card>
