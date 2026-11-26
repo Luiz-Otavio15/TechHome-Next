@@ -4,7 +4,7 @@ import { updateProduct, deleteProduct } from "../app/actions";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Trash, Pencil } from "lucide-react"
+import { Trash, Pencil, Check, X } from "lucide-react"
 import Image from "next/image"
 interface ProductProps {
   product: {
@@ -22,6 +22,11 @@ export default function ProductItem({ product }: ProductProps) {
   async function handleUpdate(formData: FormData) {
     await updateProduct(formData);
     setIsEditing(false);
+  }
+
+  async function handleDelete(formData: FormData) {
+    const result = await deleteProduct(formData);
+    if (result?.error) alert(result.error);
   }
 
   if (isEditing) {
@@ -49,8 +54,14 @@ export default function ProductItem({ product }: ProductProps) {
               />
             </div>
             
-            <Button type="submit" size="sm" className="bg-green-500 hover:bg-green-600">
-              
+            <Button
+              type="submit"
+              size="sm"
+              className="bg-green-500 hover:bg-green-600"
+              aria-label="Salvar alterações"
+              title="Salvar alterações"
+            >
+              <Check className="h-4 w-4" />
             </Button>
             
             <Button 
@@ -58,8 +69,10 @@ export default function ProductItem({ product }: ProductProps) {
               variant="outline"
               size="sm"
               onClick={() => setIsEditing(false)}
+              aria-label="Cancelar edição"
+              title="Cancelar edição"
             >
-              
+              <X className="h-4 w-4" />
             </Button>
           </form>
         </CardContent>
@@ -91,7 +104,7 @@ export default function ProductItem({ product }: ProductProps) {
             editar
           </Button>
 
-          <form action={deleteProduct}>
+          <form action={handleDelete}>
             <input type="hidden" name="id" value={product._id} />
             <Button 
               variant="ghost"

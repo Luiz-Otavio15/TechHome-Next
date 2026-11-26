@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react"
-import { Navbar } from "./ui/navbar";
+
 export default function AddProductForm() {
   const ref = useRef<HTMLFormElement>(null);
 
@@ -34,7 +34,7 @@ export default function AddProductForm() {
           <form 
             ref={ref} 
             action={clientAction} 
-            className="grid grid-cols-3 gap-4"
+            className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
           >
             <div className="relative">
               
@@ -88,7 +88,7 @@ export default function AddProductForm() {
                 className="pl-10"
               />
             </div>
-            <Button type="submit" className="px-6">
+            <Button type="submit" className="px-6 sm:col-span-2 lg:col-span-1">
               <Plus className="h-6 w-6 mr-2"></Plus>
               Adicionar
             </Button>

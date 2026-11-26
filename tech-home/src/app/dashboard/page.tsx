@@ -12,12 +12,16 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 export default async function Dashboard() {
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/login");
+  if (!session?.user?.id) redirect("/login");
+
+  if (session.user.role !== "admin" && session.user.role !== "gerente") {
+    redirect("/principal");
+  }
 
   await dbConnect();
   
   // O .lean() converte os documentos do Mongoose em objetos JS puros
-  const produto = await Product.find({ usuarioId: (session.user as any).id }).lean();
+  const produto = await Product.find({ usuarioId: session.user.id }).lean();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8">

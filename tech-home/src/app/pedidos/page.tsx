@@ -5,7 +5,6 @@ import { ArrowLeft, ShoppingBag, MapPin, CalendarDays } from "lucide-react";
 import { authOptions } from "@/lib/auth";
 import dbConnect from "@/lib/db";
 import Pedido from "@/models/Pedido";
-import Logout from "@/components/logoutbutton";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 

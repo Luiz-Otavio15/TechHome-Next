@@ -3,13 +3,12 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { isValidObjectId } from "mongoose";
 import { getServerSession } from "next-auth";
-import { ArrowLeft, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import { authOptions } from "@/lib/auth";
 import dbConnect from "@/lib/db";
 import Product from "@/models/Product";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Navbar, NavbarVoltar } from "@/components/ui/navbar";
 
 const brl = (v: number) =>
   v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -28,10 +27,8 @@ export default async function ProdutoPage({params,}: {params: Promise<{ id: stri
   const semEstoque = produto.estoque <= 0;
   const estoqueBaixo = produto.estoque > 0 && produto.estoque <= 5;
 
-  return (  
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      <NavbarVoltar/>
-      <div className="mx-auto max-w-5xl p-10">
+  return (
+    <div className="mx-auto max-w-5xl p-10">
         
         
 
@@ -92,17 +89,20 @@ export default async function ProdutoPage({params,}: {params: Promise<{ id: stri
                   Indisponível
                 </Button>
               ) : (
-                <Button size="lg" className="mt-auto w-full bg-green-600 hover:bg-green-700">
-                  <Link href={`/principal/${produto._id}/finalizacao`} className="flex">
-                    <ShoppingCart className="mr-2"/>
-                    Comprar agora
-                  </Link>
-                </Button>
+                <Link
+                  href={`/principal/${produto._id}/finalizacao`}
+                  className={buttonVariants({
+                    size: "lg",
+                    className: "mt-auto w-full bg-green-600 hover:bg-green-700",
+                  })}
+                >
+                  <ShoppingCart className="mr-2" />
+                  Comprar agora
+                </Link>
               )}
             </div>
           </CardContent>
         </Card>
-      </div>
     </div>
   );
 }

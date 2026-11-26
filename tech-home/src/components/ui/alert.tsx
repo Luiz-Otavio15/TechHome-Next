@@ -1,7 +1,8 @@
 import * as React from "react";
+import { cn } from "@/lib/utils";
 
 export function Alert({
-  className = "",
+  className,
   variant = "default",
   ...props
 }: React.HTMLAttributes<HTMLDivElement> & { variant?: "default" | "destructive" }) {
@@ -13,16 +14,24 @@ export function Alert({
   return (
     <div
       role="alert"
-      className={`w-full rounded-lg border p-4 text-sm ${style} ${className}`}
+      className={cn("w-full rounded-lg border p-4 text-sm", style, className)}
       {...props}
     />
   );
 }
 
-export function AlertTitle({ className = "", ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
-  return <h5 className={`mb-1 font-medium leading-none tracking-tight ${className}`} {...props} />;
+export function AlertTitle({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
+  return (
+    <h5
+      className={cn("mb-1 font-medium leading-none tracking-tight", className)}
+      {...props}
+    />
+  );
 }
 
-export function AlertDescription({ className = "", ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={`text-sm opacity-90 ${className}`} {...props} />;
+export function AlertDescription({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
+  return <div className={cn("text-sm opacity-90", className)} {...props} />;
 }

@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-
+import { Mail ,LockKeyhole, UserRound } from "lucide-react"
 
 export default function LoginPage() {
   const router = useRouter();
@@ -36,7 +36,7 @@ export default function LoginPage() {
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
-              
+              <UserRound/>
             </div>
           </div>
           <CardTitle className="text-2xl">Entrar</CardTitle>
@@ -55,7 +55,10 @@ export default function LoginPage() {
           
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="relative">
-              
+              <Mail
+                aria-hidden="true"
+                className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400"
+              />
               <Input 
                 name="email" 
                 type="email" 
@@ -66,7 +69,10 @@ export default function LoginPage() {
             </div>
             
             <div className="relative">
-              
+              <LockKeyhole
+                aria-hidden="true"
+                className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400"
+              />
               <Input 
                 name="password" 
                 type="password" 

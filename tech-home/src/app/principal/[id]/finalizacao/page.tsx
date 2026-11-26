@@ -5,7 +5,6 @@ import { authOptions } from "@/lib/auth";
 import dbConnect from "@/lib/db";
 import Product from "@/models/Product";
 import CheckoutForm from "@/components/checkoutForm";
-import { NavbarVoltar } from "@/components/ui/navbar";
 
 export default async function CheckoutPage({
   params,
@@ -23,16 +22,13 @@ export default async function CheckoutPage({
   if (!produto || produto.estoque <= 0) notFound();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      <NavbarVoltar direcionar={`/principal/${id}`}/>
-      <CheckoutForm
-        produto={{
-          id,
-          nome: produto.nome,
-          preco: produto.preco,
-          estoque: produto.estoque,
-        }}
-      />
-    </div>
+    <CheckoutForm
+      produto={{
+        id,
+        nome: produto.nome,
+        preco: produto.preco,
+        estoque: produto.estoque,
+      }}
+    />
   );
 }

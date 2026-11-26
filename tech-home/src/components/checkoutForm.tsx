@@ -1,9 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -55,15 +54,15 @@ export default function CheckoutForm({ produto }: Props) {
             <Input name="cep" placeholder="CEP" inputMode="numeric" maxLength={9} required />
             <Input name="rua" placeholder="Rua / Avenida" required />
 
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <Input name="numero" placeholder="Número" required />
-              <Input name="complemento" placeholder="Complemento (opcional)" className="col-span-2" />
+              <Input name="complemento" placeholder="Complemento (opcional)" className="sm:col-span-2" />
             </div>
 
             <Input name="bairro" placeholder="Bairro" required />
 
-            <div className="grid grid-cols-3 gap-4">
-              <Input name="cidade" placeholder="Cidade" className="col-span-2" required />
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <Input name="cidade" placeholder="Cidade" className="sm:col-span-2" required />
               <Input name="uf" placeholder="UF" maxLength={2} required />
             </div>
           </CardContent>

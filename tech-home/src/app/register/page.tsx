@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
+import { Mail ,LockKeyhole, UserRound} from "lucide-react"
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -26,7 +26,7 @@ export default function RegisterPage() {
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-              
+              <UserRound/>
             </div>
           </div>
           <CardTitle className="text-2xl">Criar Conta</CardTitle>
@@ -38,7 +38,10 @@ export default function RegisterPage() {
         <CardContent>
           <form action={clientAction} className="space-y-4">
             <div className="relative">
-              
+              <UserRound
+                aria-hidden="true"
+                className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400"
+              />
               <Input 
                 name="name" 
                 type="text" 
@@ -49,7 +52,10 @@ export default function RegisterPage() {
             </div>
             
             <div className="relative">
-              
+              <Mail
+                aria-hidden="true"
+                className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400"
+              />
               <Input 
                 name="email" 
                 type="email" 
@@ -60,7 +66,10 @@ export default function RegisterPage() {
             </div>
             
             <div className="relative">
-              
+              <LockKeyhole
+                aria-hidden="true"
+                className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400"
+              />
               <Input 
                 name="password" 
                 type="password" 

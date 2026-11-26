@@ -9,7 +9,6 @@ import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { isValidObjectId } from "mongoose";
-import { error } from "node:console";
 
 // --- AÇÃO DE REGISTRO ---
 export async function registerUser(formData: FormData) {
@@ -36,7 +35,11 @@ export async function registerUser(formData: FormData) {
 // --- AÇÃO DE CRIAR PRODUTO ---
 export async function addProduct(formData: FormData) {
   const session = await getServerSession(authOptions);
-  if (!session) return { error: "Não autorizado" };
+  if (!session?.user?.id) return { error: "Não autorizado" };
+
+  if (session.user.role !== "admin" && session.user.role !== "gerente") {
+    return { error: "Apenas gerentes ou administradores podem cadastrar produtos" };
+  }
 
   const nome = formData.get("nome");
   const preco = formData.get("preco");
@@ -50,7 +53,7 @@ export async function addProduct(formData: FormData) {
     preco: Number(preco),
     imagem,
     estoque: Number(estoque),
-    usuarioId: (session.user as any).id
+    usuarioId: session.user.id
   });
 
   
@@ -61,32 +64,60 @@ export async function addProduct(formData: FormData) {
 
 // --- AÇÃO DE DELETAR PRODUTO ---
 export async function deleteProduct(formData: FormData) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) return { error: "Não autorizado" };
+
   const id = formData.get("id");
+  if (typeof id !== "string" || !isValidObjectId(id)) {
+    return { error: "Produto inválido" };
+  }
+
   await dbConnect();
-  await Product.findByIdAndDelete(id);
+  const produto = await Product.findById(id);
+  if (!produto) return { error: "Produto não encontrado" };
+
+  const podeGerenciar =
+    produto.usuarioId === session.user.id || session.user.role === "admin";
+  if (!podeGerenciar) return { error: "Sem permissão" };
+
+  await produto.deleteOne();
   revalidatePath("/dashboard");
+  revalidatePath("/principal");
+  return { success: true };
 }
 
 // --- AÇÃO DE ATUALIZAR PRODUTO ---
 export async function updateProduct(formData: FormData) {
   const session = await getServerSession(authOptions);
-  if (!session) return { error: "Não autorizado" };
+  if (!session?.user?.id) return { error: "Não autorizado" };
 
   const id = formData.get("id");
   const nome = formData.get("nome");
   const preco = formData.get("preco");
 
+  if (typeof id !== "string" || !isValidObjectId(id)) {
+    return { error: "Produto inválido" };
+  }
+
   await dbConnect();
+  const produto = await Product.findById(id);
+  if (!produto) return { error: "Produto não encontrado" };
+
+  const podeGerenciar =
+    produto.usuarioId === session.user.id || session.user.role === "admin";
+  if (!podeGerenciar) return { error: "Sem permissão" };
+
   await Product.findByIdAndUpdate(id, { nome, preco: Number(preco) });
 
   revalidatePath("/dashboard");
+  revalidatePath("/principal");
   return { success: true };
 }
 
 // --- AÇÃO DE CRIAR PEDIDO ---
 export async function criarPedido(formData: FormData) {
   const session = await getServerSession(authOptions);
-  const userId = (session?.user as any)?.id;
+  const userId = session?.user?.id;
   if (!userId) return { error: "Não autorizado" };
 
   // helper: pega o campo como texto, sem espaços nas pontas
