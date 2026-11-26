@@ -10,6 +10,7 @@ export default function Loading() {
             <Store className="h-8 w-8 text-blue-700"/>
             
           </div>
+          <h2 className="text-lg font-semibold text-gray-900 mb-2">TechHome</h2>
           
           <Loader2 className="h-8 w-8 animate-spin text-blue-800 mb-4" />
           

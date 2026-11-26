@@ -5,12 +5,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Trash, Pencil } from "lucide-react"
-
+import Image from "next/image"
 interface ProductProps {
   product: {
     _id: string;
     nome: string;
     preco: number;
+    imagem: string;
   }
 }
 
@@ -29,7 +30,6 @@ export default function ProductItem({ product }: ProductProps) {
         <CardContent className="p-4">
           <form action={handleUpdate} className="flex items-center gap-2">
             <input type="hidden" name="id" value={product._id} />
-            
             <Input 
               name="nome" 
               defaultValue={product.nome} 
@@ -71,8 +71,8 @@ export default function ProductItem({ product }: ProductProps) {
     <Card className="hover:shadow-md transition-shadow m-5">
       <CardContent className="flex items-center justify-between p-5 pt-5">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100">
-            
+          <div className=" relative flex h-10 w-10 items-center justify-center rounded-full bg-blue-100">
+            <Image src={product.imagem} alt={product.nome} fill className="object-cover w-10 h-10 rounded-full"/>
           </div>
           <div>
             <h3 className="font-semibold text-gray-900">{product.nome}</h3>
@@ -82,10 +82,10 @@ export default function ProductItem({ product }: ProductProps) {
         
         <div className="flex gap-4">
           <Button 
-            variant="outline"
+            variant="ghost"
             size="sm"
             onClick={() => setIsEditing(true)}
-            className="text-blue-600 hover:text-blue-700"
+            className="text-blue-600 hover:text-blue-700 border border-gray-200"
           >
             <Pencil className="w-5 h-5 mr-2 "/>
             editar
@@ -94,9 +94,9 @@ export default function ProductItem({ product }: ProductProps) {
           <form action={deleteProduct}>
             <input type="hidden" name="id" value={product._id} />
             <Button 
-              variant="outline"
+              variant="ghost"
               size="sm"
-              className="text-red-600 hover:text-red-700 hover:bg-red-50"
+              className="text-red-600 hover:text-red-700 hover:bg-red-50 border border-gray-200"
             >
               <Trash className="h-5 w-5 mr-2"/>
               Deletar
